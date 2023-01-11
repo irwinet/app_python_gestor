@@ -1,3 +1,4 @@
+import helpers
 import database as db
 from tkinter import *
 from tkinter import ttk
@@ -32,12 +33,15 @@ class CreateClientWindow(Toplevel, CenterWidgetMixin):
 
         dni = Entry(frame)
         dni.grid(row=1, column=0)
+        dni.bind("<KeyRelease>", lambda event: self.validate(event, 0))
 
         nombre = Entry(frame)
         nombre.grid(row=1, column=1)
+        nombre.bind("<KeyRelease>", lambda event: self.validate(event, 1))
 
         apellido = Entry(frame)
         apellido.grid(row=1, column=2)
+        apellido.bind("<KeyRelease>", lambda event: self.validate(event, 2))
 
         frame = Frame(self)
         frame.pack(pady=10)
@@ -54,6 +58,31 @@ class CreateClientWindow(Toplevel, CenterWidgetMixin):
     def close(self):
         self.destroy()
         self.update()
+
+    def validate(self, event, index):
+        valor = event.widget.get()
+        # if(index == 0):
+        #     valido = helpers.dni_valido(valor, db.Clientes.lista)
+        #     if valido:
+        #         event.widget.configure({"bg":"Green"})
+        #     else:
+        #         event.widget.configure({"bg":"Red"})
+        # if(index == 1):
+        #     valido = valor.isalpha() and len(valor) >= 2 and len(valor)<=30
+        #     if valido:
+        #         event.widget.configure({"bg":"Green"})
+        #     else:
+        #         event.widget.configure({"bg":"Red"})
+        # if(index == 2):
+        #     valido = valor.isalpha() and len(valor) >= 2 and len(valor)<=30
+        #     if valido:
+        #         event.widget.configure({"bg":"Green"})
+        #     else:
+        #         event.widget.configure({"bg":"Red"})
+
+        valido = helpers.dni_valido(valor, db.Clientes.lista) if index==0 \
+            else (valor.isalpha() and len(valor) >= 2 and len(valor)<=30)
+        event.widget.configure({"bg":"Green" if valido else "Red"})
 
 class MainWindows(Tk, CenterWidgetMixin):
     def __init__(self):
