@@ -166,7 +166,7 @@ class EditClientWindow(Toplevel, CenterWidgetMixin):
         self.validaciones[index] = valido
         self.actualizar.config(state=NORMAL if self.validaciones == [1,1] else DISABLED)
 
-class MainWindows(Tk, CenterWidgetMixin):
+class MainWindow(Tk, CenterWidgetMixin):
     def __init__(self):
         super().__init__()
         self.title("Gestor de Clientes")
